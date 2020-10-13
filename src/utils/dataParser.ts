@@ -3,9 +3,11 @@ import Papa from 'papaparse'
 export function parseData(csv:string){
   const results = Papa.parse(csv, { header: true });
   const rows:Array<any> = results.data;
-  console.log(rows[0]);
   let data:any = {};
   rows.forEach((row:any)=>{
+    if(row.team1===undefined){
+      return;
+    }
     if(row.team1==="Rising Pune Supergiant"){
       row.team1="Rising Pune Supergiants";
     }
@@ -90,4 +92,13 @@ export function parseData(csv:string){
   })
   localStorage.setItem('data', JSON.stringify(data));
   return data;
+}
+
+export function parseTeamName (team:string) {
+  let ans = "";
+  let spiltName = team.split(' ');
+  for(let i=0; i<spiltName.length; i++){
+    ans+=(spiltName[i][0]+' ');
+  }
+  return ans;
 }
